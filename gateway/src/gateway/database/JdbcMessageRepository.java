@@ -3,22 +3,16 @@ package gateway.database;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
 
-public class jdbcMessageRepository implements MessageRepository
+public class JdbcMessageRepository implements MessageRepository
 {
-    private final String url = System.getenv("DB_URL");
-    private final String user = System.getenv("DB_USER");
-    private final String pass = System.getenv("DB_PASS");
 
-    public jdbcMessageRepository()
-    {
-        if(url == null ||user == null || pass == null)
-        {
-            throw new RuntimeException("Database environment variables missing");
-        }
+   private final Connection connection;
 
-    }
+   public JdbcMessageRepository(Connection connection)
+   {
+      this.connection = connection;
+   }
 
     @Override
     public void save(Message message)
@@ -28,13 +22,14 @@ public class jdbcMessageRepository implements MessageRepository
             VALUES (?, ?, ?, ?, ?)
         """;
 
-        try(Connection connection = DriverManager.getConnection(url,user,pass);
-        PreparedStatement statement = connection.prepareStatement(sql))
+        try(PreparedStatement statement = connection.prepareStatement(sql))
+
         {
             statement.setString(1, message.getReceiver());
             statement.setString(2,message.getContent());
             statement.setString(3, message.getStatus());
             statement.setString(4, message.getDriver());
+            statement.executeUpdate();
 
 
         }
@@ -56,8 +51,8 @@ public class jdbcMessageRepository implements MessageRepository
 
         int offset = (page - 1) * size;
 
-        try(Connection connection = DriverManager.getConnection(url,user,pass);
-        PreparedStatement statement = connection.prepareStatement(sql))
+        try(PreparedStatement statement = connection.prepareStatement(sql))
+
         {
 
             statement.setInt(1,size);
@@ -73,7 +68,7 @@ public class jdbcMessageRepository implements MessageRepository
                         resultSet.getString("content"),
                         resultSet.getString("status"),
                         resultSet.getString("driver"),
-                        resultSet.getTimestamp("createdAt").toLocalDateTime()
+                        resultSet.getTimestamp("created_at").toLocalDateTime()
                 );
 
 
