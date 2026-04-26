@@ -2,7 +2,10 @@ package gateway;
 
 import api.SmsDriver;
 import gateway.database.Database;
+import gateway.database.JdbcMessageRepository;
+import gateway.database.MessageRepository;
 import gateway.migration.MigrationRunner;
+import gateway.service.MessageService;
 import gateway.template.*;
 
 public class Main
@@ -21,7 +24,9 @@ public class Main
 
             // Step 4 - start web server
             Database database = new Database(db.getConnection());
-            new WebServer(database).start();
+            MessageRepository repository = new JdbcMessageRepository(db.getConnection());
+            MessageService service = new MessageService(repository,driver);
+            new WebServer(database, service).start();
 
             // NO db.close() — server needs the connection alive!
 

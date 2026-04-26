@@ -3,6 +3,7 @@ package gateway;
 import static spark.Spark.*;
 import gateway.database.Database;
 import gateway.database.Message;
+import gateway.service.MessageService;
 import gateway.template.TemplateEngineProvider;
 import gg.jte.output.StringOutput;
 
@@ -14,13 +15,19 @@ import java.util.Map;
 public class WebServer
 {
     private final Database database;
-    public WebServer(Database database)
+    private final MessageService service;
+    public WebServer(Database database, MessageService service)
     {
         this.database = database;
+        this.service = service;
     }
     public void start()
     {
         port(8080);
+        get("/health", (request, response) -> {
+            response.type("application/json");
+            return "{\"status\": \"ok\"}";
+        });
         get("/", (request, response) ->
         {
             List<Message> messages = database.getMessages();
