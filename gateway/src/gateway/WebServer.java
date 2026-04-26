@@ -6,6 +6,8 @@ import gateway.database.Message;
 import gateway.service.MessageService;
 import gateway.template.TemplateEngineProvider;
 import gg.jte.output.StringOutput;
+import com.google.gson.Gson;
+import gateway.dto.SendMessageRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,16 @@ public class WebServer
         get("/health", (request, response) -> {
             response.type("application/json");
             return "{\"status\": \"ok\"}";
+        });
+        post("/send", (request, response) -> {
+            response.type("application/json");
+
+            Gson gson = new Gson();
+            SendMessageRequest req = gson.fromJson(request.body(), SendMessageRequest.class);
+
+            Message result = service.sendMessage(req);
+
+            return gson.toJson(result);
         });
         get("/", (request, response) ->
         {
