@@ -3,6 +3,7 @@ package gateway.database;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 public class JdbcMessageRepository implements MessageRepository
 {
@@ -29,6 +30,7 @@ public class JdbcMessageRepository implements MessageRepository
             statement.setString(2,message.getContent());
             statement.setString(3, message.getStatus());
             statement.setString(4, message.getDriver());
+            statement.setTimestamp(5, Timestamp.valueOf(message.getCreatedAt()));
             statement.executeUpdate();
 
 

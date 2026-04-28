@@ -5,11 +5,10 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: mydb
-      DB_USER: postgres
-      DB_PASSWORD: mysecretpassword
+      DB_URL: jdbc:postgresql://db:5432/mydb
+      DB_USER: Ieqbli
+      DB_PASS: Mamali@2005
+      SMS_DRIVER: twilio
     ports:
       - "8080:8080"
 

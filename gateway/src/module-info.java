@@ -9,6 +9,8 @@ module gateway
     requires com.google.gson;
     exports gateway.database;
     exports gateway.template;
+    opens gateway.dto to com.google.gson;
+    opens gateway.database to com.google.gson;
     uses api.SmsDriver;
 
 }
