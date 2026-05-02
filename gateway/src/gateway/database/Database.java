@@ -16,7 +16,7 @@ public class Database
     {
         List<Message> messages = new ArrayList<>();
         String sql = """
-    SELECT phone, content, status, driver, created_at
+    SELECT receiver, content, status, driver, created_at
     FROM messages
     ORDER BY id DESC
 """;
@@ -29,7 +29,7 @@ public class Database
             while (resultSet.next())
             {
                 messages.add(new Message(
-                        resultSet.getString("phone"),      // receiver
+                        resultSet.getString("receiver"),      // receiver
                         resultSet.getString("content"),
                         resultSet.getString("status"),
                         resultSet.getString("driver"),

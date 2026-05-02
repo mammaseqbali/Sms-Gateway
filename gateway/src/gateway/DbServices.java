@@ -47,17 +47,6 @@ public class DbServices
         return smsLogRepository;
     }
 
-    public void saveMessage(String number, String message) throws SQLException
-    {
-        String sql = "INSERT INTO messages (phone, content) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql))
-        {
-            stmt.setString(1, number);
-            stmt.setString(2, message);
-            stmt.executeUpdate();
-        }
-    }
-
     public void close() throws SQLException
     {
         if (connection != null && !connection.isClosed())

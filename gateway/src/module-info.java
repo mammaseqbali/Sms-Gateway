@@ -10,7 +10,7 @@ module gateway
     exports gateway.database;
     exports gateway.template;
     opens gateway.dto to com.google.gson;
-    opens gateway.database to com.google.gson,gg.jte;
+    opens gateway.database to com.google.gson, gg.jte, gg.jte.runtime;
     uses api.SmsDriver;
 
 }

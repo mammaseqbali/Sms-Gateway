@@ -6,11 +6,8 @@ import gg.jte.resolve.DirectoryCodeResolver;
 
 import java.nio.file.Path;
 
-import static gateway.template.TemplateConfig.classDirectory;
-
 public final class TemplateEngineProvider
 {
-
     private static TemplateEngine engine;
 
     private TemplateEngineProvider()
@@ -24,16 +21,18 @@ public final class TemplateEngineProvider
             {
                 if (engine == null)
                 {
-                    Path templatesPath = Path.of("gateway", "src", "gateway", "template", "templates");
+                    Path templatesPath = TemplateConfig.TemplatesPath();
                     var resolver = new DirectoryCodeResolver(templatesPath);
 
-
-                    engine = TemplateEngine.create(resolver, classDirectory(), ContentType.Html);
+                    engine = TemplateEngine.create(
+                            resolver,
+                            TemplateConfig.classDirectory(),
+                            ContentType.Html,
+                            TemplateEngineProvider.class.getClassLoader()
+                    );
                 }
             }
         }
-
-        System.out.println(engine);
         return engine;
     }
 }

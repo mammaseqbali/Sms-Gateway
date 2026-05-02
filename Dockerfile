@@ -52,5 +52,7 @@ RUN javac --module-path "mods:gateway/lib/gg.jte.jar:gateway/lib/gg.jte.runtime.
   gateway/src/gateway/template/TemplateEngineProvider.java \
   gateway/src/gateway/template/TemplateRenderer.java
 
+RUN mkdir -p target/jte-classes && \
+    cp -r mods/gateway/* target/jte-classes/
 # Run
 CMD ["java", "--module-path", "mods:gateway/lib/gg.jte.jar:gateway/lib/gg.jte.runtime.jar:gateway/lib/gg.jte.extension.api.jar:gateway/lib/spark-core-2.9.4.jar:gateway/lib/gson-2.10.1.jar:gateway/lib/postgresql-42.7.7.jar:gateway/lib/jetty-server-9.4.51.v20230217.jar:gateway/lib/jetty-http-9.4.51.v20230217.jar:gateway/lib/jetty-io-9.4.51.v20230217.jar:gateway/lib/jetty-util-9.4.51.v20230217.jar:gateway/lib/javax.servlet-api-4.0.1.jar:gateway/lib/slf4j-api-2.0.12.jar:gateway/lib/slf4j-simple-2.0.12.jar", "--class-path", "gateway/lib/slf4j-api-2.0.12.jar:gateway/lib/slf4j-simple-2.0.12.jar:gateway/lib/spark-core-2.9.4.jar:gateway/lib/jetty-server-9.4.51.v20230217.jar:gateway/lib/jetty-http-9.4.51.v20230217.jar:gateway/lib/jetty-io-9.4.51.v20230217.jar:gateway/lib/jetty-util-9.4.51.v20230217.jar:gateway/lib/javax.servlet-api-4.0.1.jar", "--add-modules", "sms.twilio,sms.nexmo", "-m", "gateway/gateway.Main"]
